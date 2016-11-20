@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Map</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="assets/lib/leaflet/leaflet.css" />
+	<script src="assets/lib/leaflet/leaflet.js"></script>
+</head>
+<body>
+	<div id="mapid" style="width: 600px; height: 400px;"></div>
+<script>
+var mymap = L.map('mapid').setView([51.475676, 10.365616], 7);
+L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+	maxZoom: 18,
+	attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+		'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+		'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+	id: 'papppa.24o3jbm0',
+	accessToken: 'pk.eyJ1IjoicGFwcHBhIiwiYSI6ImNpdm01ZTh5YzAwZHAyb255NHp1ZDJ2M2wifQ.u7k9XOvN1de-6ObUzKgWGw'
+}).addTo(mymap);
+</script>
+<script src="assets/scripts/jams.js">
+var jams = L.layerGroup([jamsA93, jamsA38]);
+var overlayMaps = {"Jams" : jams};
+L.control.layers(overlayMaps,).addTo(mymap);
+</script>
+</body>
+</html>
