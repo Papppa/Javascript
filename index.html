@@ -1,0 +1,92 @@
+<html>
+<head>
+<meta charset=utf-8 />
+<title>A simple map</title>
+<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+<script src='https://api.mapbox.com/mapbox.js/v2.4.0/mapbox.js'></script>
+<link href='https://api.mapbox.com/mapbox.js/v2.4.0/mapbox.css' rel='stylesheet' />
+<style>
+  body { margin:0; padding:0; }
+  #map { position:absolute; top:0; bottom:0; width:100%; }
+</style>
+</head>
+<body>
+<div id='map'></div>
+<script src="assets/scripts/colormap.js"></script> 	
+<script src="assets/scripts/2015_DsegRanking/jams2015_all.js"></script> 
+<script src="assets/scripts/2015_DsegRanking/jams2015_all_EP_WD.js"></script> 
+<script src="assets/scripts/2015_DsegRanking/jams2015_all_MP_WD.js"></script> 
+<script src="assets/scripts/2015_DsegRanking/jams2015_all_EP_WE.js"></script> 
+<script src="assets/scripts/2015_DsegRanking/jams2015_all_MP_WE.js"></script> 
+
+<script src="assets/scripts/2015_DsegRanking/jams2015_q3.js"></script> 
+<script src="assets/scripts/2015_DsegRanking/jams2015_q3_EP_WD.js"></script> 
+<script src="assets/scripts/2015_DsegRanking/jams2015_q3_MP_WD.js"></script> 
+<script src="assets/scripts/2015_DsegRanking/jams2015_q3_EP_WE.js"></script> 
+<script src="assets/scripts/2015_DsegRanking/jams2015_q3_MP_WE.js"></script> 
+
+
+<script>
+var mbAttr = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+mbUrl = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoicGFwcHBhIiwiYSI6ImNpdm01ZTh5YzAwZHAyb255NHp1ZDJ2M2wifQ.u7k9XOvN1de-6ObUzKgWGw';
+var streets = L.tileLayer(mbUrl, {id: 'papppa.24o3jbm0',   attribution: mbAttr});
+var map = L.map('map', {
+	center: [49.761471, 8.534362],
+	zoom: 8,
+	layers: [streets]
+});
+//var map = L.mapbox.map('map', 'papppa.24o3jbm0')
+//var layer = L.mapbox.tileLayer('mapbox.streets'); 
+var baseLayers = {
+		"Streets": streets
+	};
+var overlays = {
+		"Most Car delay in 2015": jams2015_all,
+		"Most Car delay in 2015 MP-WD": jams2015_all_MP_WD,
+		"Most Car delay in 2015 EP-WD": jams2015_all_EP_WD,
+		"Most Car delay in 2015 MP-WE": jams2015_all_MP_WE,
+		"Most Car delay in 2015 EP-WE": jams2015_all_EP_WE,
+		"Most Car delay in 2015-Q3": jams2015_q3,
+		"Most Car delay in 2015-Q3 MP-WD": jams2015_q3_MP_WD,
+		"Most Car delay in 2015-Q3 EP-WD": jams2015_q3_EP_WD,
+		"Most Car delay in 2015-Q3 MP-WE": jams2015_q3_MP_WE,
+		"Most Car delay in 2015-Q3 EP-WE": jams2015_q3_EP_WE
+	};
+L.control.layers(baseLayers, overlays).addTo(map);
+///// draw the Legend //////
+	
+    ctx = canvas.getContext("2d");
+
+	var critAspectRatio=1.15;
+    var hasChanged=false;
+    var simDivWindow=document.getElementById("contents");
+
+    if (canvas.width!=simDivWindow.clientWidth){
+	hasChanged=true;
+	canvas.width  = simDivWindow.clientWidth;
+    }
+    if (canvas.height != simDivWindow.clientHeight){
+	hasChanged=true;
+        canvas.height  = simDivWindow.clientHeight;
+    }
+    var aspectRatio=canvas.width/canvas.height;
+    var refSizePix=Math.min(canvas.height,canvas.width/critAspectRatio);
+// (6) draw the speed colormap
+	var refSizePix = 500;
+	var vmin = 3769518; 
+	 var vmax = 17668434;
+
+    drawColormap(0.22*refSizePix,
+                 0.43*refSizePix,
+                 0.1*refSizePix, 0.2*refSizePix,
+		 vmin,vmax,0,100/3.6);
+
+
+    // revert to neutral transformation at the end!
+    ctx.setTransform(1,0,0,1,0,0); 
+
+</script>
+</body>
+</html>
